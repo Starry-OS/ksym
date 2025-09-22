@@ -47,7 +47,7 @@ pub fn lookup_kallsyms(addr: usize) -> Option<(String, usize)> {
     }
     if index < sym_num {
         let sym_name = ksym[index].0.as_str();
-        Some((sym_name.to_string(), ksym[index].1));
+        return Some((sym_name.to_string(), ksym[index].1));
     }
     None
 }
