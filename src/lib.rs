@@ -1,4 +1,11 @@
+//! A library to parse and query the Linux kernel symbol table.
+//!! It can initialize the symbol table from the embedded symbols
+//! (when compiled with `assembly` feature) or from a string in the format of
+//! `/proc/kallsyms`.
+//!
+
 #![no_std]
+#![deny(missing_docs)]
 #![feature(linkage)]
 
 #[cfg(feature = "assembly")]
@@ -13,6 +20,7 @@ pub use assembly::init_kernel_symbols;
 use lazyinit::LazyInit;
 extern crate alloc;
 
+/// The global kernel symbol table.
 pub static KSYM: LazyInit<Vec<(String, usize)>> = LazyInit::new();
 
 /// Initialize the kernel symbol table from a string in the format of
