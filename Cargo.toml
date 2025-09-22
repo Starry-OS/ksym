@@ -1,10 +1,10 @@
 [package]
-name = "axksym"
+name = "ksym"
 authors = ["Linfeng Chen <chenlinfeng25@outlook.com>"]
 version = "0.1.0"
 edition = "2024"
-homepage = "https://github.com/Starry-OS/axksym"
-repository = "https://github.com/Starry-OS/axksym"
+homepage = "https://github.com/Starry-OS/ksym"
+repository = "https://github.com/Starry-OS/ksym"
 
 
 [dependencies]
