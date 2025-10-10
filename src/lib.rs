@@ -45,7 +45,7 @@ pub fn init_kernel_symbols(ksym: &str) {
 /// If not found, return None.
 pub fn lookup_kallsyms(addr: usize) -> Option<(String, usize)> {
     let mut index = usize::MAX;
-    let ksym = KSYM.get().unwrap();
+    let ksym = KSYM.get()?;
     let sym_num = ksym.len();
     for i in 0..sym_num - 1 {
         if addr > ksym[i].1 && addr <= ksym[i + 1].1 {
@@ -63,7 +63,7 @@ pub fn lookup_kallsyms(addr: usize) -> Option<(String, usize)> {
 /// Get the address of the symbol.
 /// If not found, return None.
 pub fn addr_from_symbol(symbol: &str) -> Option<usize> {
-    let ksym = KSYM.get().unwrap();
+    let ksym = KSYM.get()?;
     for (name, addr) in ksym {
         if name == symbol {
             return Some(*addr);
