@@ -1,7 +1,7 @@
 [package]
 name = "ksym"
 authors = ["Linfeng Chen <chenlinfeng25@outlook.com>"]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 homepage = "https://github.com/Starry-OS/ksym"
 repository = "https://github.com/Starry-OS/ksym"
@@ -9,7 +9,6 @@ repository = "https://github.com/Starry-OS/ksym"
 
 [dependencies]
 rustc-demangle = { version = "0.1", optional = true }
-lazyinit = "0.2"
 
 [features]
 demangle = ["dep:rustc-demangle"]
@@ -17,8 +16,4 @@ assembly = []
 
 [[bin]]
 name = "gen_ksym"
-required-features = ["demangle"]
-
-[[bin]]
-name = "gen_ksym_as"
 required-features = ["demangle"]
