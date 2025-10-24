@@ -186,18 +186,19 @@ impl<'a> KallsymsMapped<'a> {
                 i += 4;
             }
             if let Some(id) = token_id
-                && (id as usize) < self.token_index.len() {
-                    let start = self.token_index[id as usize] as usize;
-                    let end = if (id as usize) + 1 < self.token_index.len() {
-                        self.token_index[(id as usize) + 1] as usize
-                    } else {
-                        self.token_table.len()
-                    };
-                    let token_str = &self.token_table[start..end];
-                    let need_copy = (KSYM_NAME_LEN - offset).min(token_str.len());
-                    name_buf[offset..offset + need_copy].copy_from_slice(&token_str[..need_copy]);
-                    offset += need_copy;
-                }
+                && (id as usize) < self.token_index.len()
+            {
+                let start = self.token_index[id as usize] as usize;
+                let end = if (id as usize) + 1 < self.token_index.len() {
+                    self.token_index[(id as usize) + 1] as usize
+                } else {
+                    self.token_table.len()
+                };
+                let token_str = &self.token_table[start..end];
+                let need_copy = (KSYM_NAME_LEN - offset).min(token_str.len());
+                name_buf[offset..offset + need_copy].copy_from_slice(&token_str[..need_copy]);
+                offset += need_copy;
+            }
             // Append the rest as raw bytes
             let need_copy = (KSYM_NAME_LEN - offset).min(bytes.len() - i);
             name_buf[offset..offset + need_copy].copy_from_slice(&bytes[i..i + need_copy]);
@@ -208,7 +209,7 @@ impl<'a> KallsymsMapped<'a> {
             name_buf[offset..offset + need_copy].copy_from_slice(&bytes[i..i + need_copy]);
             offset += need_copy;
         }
-        
+
         (core::str::from_utf8(&name_buf[..offset]).unwrap_or_default()) as _
     }
 
