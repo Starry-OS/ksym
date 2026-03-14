@@ -16,7 +16,7 @@ pub const TOKEN_MARKER: u8 = 0xFF;
 pub(crate) const LENGTH_BYTES: usize = 2;
 
 /// Maximum length for a symbol name
-pub const KSYM_NAME_LEN: usize = 1024;
+pub const KSYM_NAME_LEN: usize = 4096;
 /// Length bytes for symbol type
 const TY_LEN: usize = 1;
 
