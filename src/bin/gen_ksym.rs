@@ -1,4 +1,9 @@
-use std::{collections::HashMap, fmt::Debug, io::Write, u64};
+//! A binary to generate compressed kallsyms blob from symbol list input (format: `address type name` per line, e.g. `ffffffff81000000 T _stext`).
+//! The output blob can be directly used in the kernel or for offline analysis.
+//!
+#![deny(missing_docs)]
+
+use std::{collections::HashMap, fmt::Debug, io::Write};
 
 use ksym::TOKEN_MARKER;
 
@@ -14,9 +19,11 @@ const MAX_TOKEN: usize = 512;
 
 /// The structure for compressed symbol data
 pub struct KallsymsBlob {
+    /// The token table storing all tokens as concatenated bytes
     pub token_table: Vec<u8>,
     /// The start index of each token in token_table
     pub token_index: Vec<u32>,
+    /// A map from token string to its ID (index in token_index)
     pub token_map: HashMap<String, u16>,
     /// Compressed symbol data
     pub kallsyms_names: Vec<u8>,
@@ -26,6 +33,7 @@ pub struct KallsymsBlob {
     pub kallsyms_seqs_of_names: Vec<u32>,
     /// The addresses of each symbol
     pub kallsyms_addresses: Vec<u64>,
+    /// The total number of symbols
     pub kallsyms_num_syms: usize,
 }
 
@@ -49,7 +57,14 @@ impl Debug for KallsymsBlob {
     }
 }
 
+impl Default for KallsymsBlob {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl KallsymsBlob {
+    /// Create a new empty blob
     pub fn new() -> Self {
         Self {
             token_table: Vec::new(),
@@ -231,7 +246,7 @@ impl KallsymsBlob {
         // offsets [u32]
         pad(&mut blob, 4);
         for &off in &self.kallsyms_offsets {
-            blob.extend_from_slice(&(off as u32).to_le_bytes());
+            blob.extend_from_slice(&off.to_le_bytes());
         }
         // seqs [u32]
         pad(&mut blob, 4);
